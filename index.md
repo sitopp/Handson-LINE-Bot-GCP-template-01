@@ -82,12 +82,10 @@ cd handson-line-bot-gcp-01
 
 
 ### Cloud Shellのエディタを起動
-
 - index.js
-　　　　- クレデンシャルを書き換える
-
+  - クレデンシャルを書き換える
 - Package.json
-　　　　- nameを書き換える
+  - nameを書き換える
       - "name": "handson-line-bot-gcp-01" 
   - どんなパッケージを使ってるか眺める
 
@@ -121,7 +119,7 @@ URLの末尾に/callbackを追加すること
 
 LINE トークアプリでBotに話しかけて、おうむ返しされること
 
-## 4.応用
+## 4.Cloud Run 応用 / セキュリティ、Docker利用
 
 ### セキュリティ対策
 
@@ -154,9 +152,10 @@ gcloud run deploy line-bot-gcp-01  \
   --max-instances=1
 ```
 
+## 5. LINE Bot 応用 / リッチメニュー
 
 
-## 5.片づけ
+## 99.片づけ
 
 ### Container Registory : コンテナを消す
 ### Cloud Run: アプリを消す
@@ -166,7 +165,8 @@ gcloud run deploy line-bot-gcp-01  \
 
 
 参考文献
+https://github.com/line/line-bot-sdk-nodejs
+https://developers.line.biz/ja/docs/messaging-api/getting-started/
 https://cloud.google.com/run/docs/quickstarts/build-and-deploy/deploy-nodejs-service?hl=ja
-
 
 
