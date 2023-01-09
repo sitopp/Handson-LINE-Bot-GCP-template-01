@@ -73,11 +73,29 @@ Messaging APIになっているか確認します。
 LINE公式から
 https://github.com/line/line-bot-sdk-nodejs/blob/master/examples/echo-bot/index.js
 
+
+```
+git clone https://github.com/line/line-bot-sdk-nodejs.git
+mv line-bot-sdk-nodejs handson-line-bot-gcp-01
+cd handson-line-bot-gcp-01
+```
+
+
 ### Cloud Shellのエディタを起動
 
-- クレデンシャルを書き換える
-- Package.jsonを書き換える
-    - "name": "handson-LINE-Bot-GCP" 
+- index.js
+　　　　- クレデンシャルを書き換える
+
+- Package.json
+　　　　- nameを書き換える
+      - "name": "handson-line-bot-gcp-01" 
+  - どんなパッケージを使ってるか眺める
+
+- ターミナルに戻り、パッケージインストールする
+```
+npm install 
+```
+
 
 
 ### ソースからデプロイ
