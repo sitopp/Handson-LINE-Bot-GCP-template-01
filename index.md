@@ -13,6 +13,7 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 - [LINE公式アカウント](https://developers.line.me/console/)作成
 - [Google Cloud アカウント](https://cloud.google.com/free) 作成
   - 会社アカウントでも大丈夫ですが、以下の手順で *プロジェクトを作成* する内容になってますので、適宜読み替えをお願いします。
+- (推奨) [Google Chrome](https://www.google.com/intl/ja/chrome/gsem/download/) の最新版のインストール
 
 ### 使用するサービス・ツール
 - GitHub
@@ -141,8 +142,6 @@ LINE Official Account Manager 画面にアクセスして、Botの「応答モ�
 - 日本語に変更するやり方
     - 右上のケバブ＞Preferences＞Language & region＞Languageを日本語にする＞保存
 
-<img width="1129" alt="image" src="https://user-images.githubusercontent.com/1670181/212521388-74044231-ed5f-4352-92fc-ab774601a71a.png">
-
 ### プロジェクト作成 
 
 　　　　- ヘッダの「プロジェクトの選択▼」＞新しいプロジェクト
@@ -150,10 +149,7 @@ LINE Official Account Manager 画面にアクセスして、Botの「応答モ�
 
 <img width="575" alt="image" src="https://user-images.githubusercontent.com/1670181/212521749-8bae7ab6-05c5-4188-ae82-14a539c4e1aa.png">
 
-  - 右上の ベルのアイコンをクリック
-
-<img width="76" alt="image" src="https://user-images.githubusercontent.com/1670181/212521782-ebb03eca-c198-4bc1-b78d-c144285343ec.png">
-  - 「プロジェクト「Handson-LINE-Bot-GCP」を作成」の通知の「プロジェクトを選択」をクリック
+  - 右上の ベルのアイコンをクリック ＞「プロジェクト「Handson-LINE-Bot-GCP」を作成」の通知の「プロジェクトを選択」をクリック
 
 <img src="https://user-images.githubusercontent.com/1670181/212521800-8533f70b-7af2-447b-97fc-f0718e646056.png" width="500" >
 
@@ -162,44 +158,116 @@ LINE Official Account Manager 画面にアクセスして、Botの「応答モ�
 
 ### Cloud Shellの起動
 
+[Cloud ShellはGCP上に用意される無料のオンライン環境](https://cloud.google.com/shell/pricing?hl=ja)で、利用が終わると停止しますが、作業内容はディスクに保存され、次回ログイン時にも引き続き使うことができます。なおディスク容量は5GBしかありませんので、それ以上の大きなデータを扱う場合は VM Instanceなど他のサービスを使う必要があります。
+
+- ヘッダのCloud Shellアイコンをクリック
+
+![image](https://user-images.githubusercontent.com/1670181/212522520-9617596a-f90c-4309-af5c-47b597fb525f.png)
+
+- 該当タブの下半分に Cloud Shell ターミナルが開く
+    - 「Click here to see details 〜」と「プロジェクト「Handson-LINE-Bot-GCP」を表示しています。」の通知は閉じましょう。
 
 
-### GitHubリポジトリのClone
 
-LINE公式から
-https://github.com/line/line-bot-sdk-nodejs/blob/master/examples/echo-bot/index.js
+### サンプルコードをGitHubからClone
 
+- LINE公式アカウントが公開しているサンプルコードをCloneします。
+    - Cloud Shellターミナルで以下のコマンドを入力
 
 ```
 git clone https://github.com/line/line-bot-sdk-nodejs.git
-mv line-bot-sdk-nodejs handson-line-bot-gcp-01
+cp -r ~/line-bot-sdk-nodejs/examples/echo-bot/ ~/handson-line-bot-gcp-01
 cd handson-line-bot-gcp-01
 ```
 
 
 ### Cloud Shellのエディタを起動
+
+- Cloud Shell ターミナルの「エディタを開く」をクリック
+    - エディタの上を引っ張り上げて面積を広げる
+ ![image](https://user-images.githubusercontent.com/1670181/212523391-bed90312-2d23-439e-8f38-331156fae316.png)
+    - 左ペインの「handson-line-bot-gcp-01」のフォルダ名をダブルクリックし、中身を開く
+    - 以下の二つのファイルをエディタで開いて編集する
+ 
 - index.js
-  - クレデンシャルを書き換える
+```
+// create LINE SDK config from env variables
+const config = {
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
+};
+```
+↓
+```
+// create LINE SDK config from env variables
+const config = {
+  channelAccessToken: "aaaaa", 
+  channelSecret: "bbbbb",
+};
+```
+aaaaaとbbbbbはそれぞれ、さっき取得したチャネルアクセストークンとチャネルシークレットに差し替え
+
 - Package.json
-  - nameを書き換える
-      - "name": "handson-line-bot-gcp-01" 
-  - どんなパッケージを使ってるか眺める
-
-- ターミナルに戻り、パッケージインストールする
 ```
-npm install 
+"name": "echo-bot",
 ```
-
-
+↓
+```
+"name": "handson-line-bot-gcp-01" ,
+```
+- File＞「Auto Save」にチェックが入っていることを確認する。
 
 ### ソースからデプロイ
 
-ターミナルから実行
+最初はコンテナ化せずソースから直接デプロイします。軽く開発する時に便利なやり方。
 
-gcloud run deploy
-空エンター
-リージョンをきかれたら、asia-northeast1= 3を選ぶ
+- Cloud Shell エディタのヘッダ部分の「ターミナルを開く」をクリック
+- 現在位置を確認する
+```
+$ pwd
+/home/ユーザー名/handson-line-bot-gcp-01 ← このパスがレスポンスされればOK。
+   - もし違うパスだったら
+```
+$ cd ~/handson-line-bot-gcp-01
+```
 
+- npmで必要なパッケージをインストールする
+```
+$ npm install 
+```
+
+1〜2分かかるのでストレッチしましょう★
+
+
+- デプロイする
+```
+$ gcloud auth login
+You are already authenticated with gcloud when running
+inside the Cloud Shell and so do not need to run this
+command. Do you wish to proceed anyway?
+
+Do you want to continue (Y/n)? ←Y
+
+Go to the following link in your browser:
+　　　　https://〜 ←表示された長いURLをクリックするとブラウザが開くので、Google メールアドレスで認証を許可する    
+```
+
+![verification](https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png)
+
+
+```
+$ gcloud run deploy
+Deploying from source. To deploy a container use [--image]. See https://cloud.google.com/run/docs/deploying-source-code for more details.
+Source code location (/home/sito989/handson-line-bot-gcp-01): ← 空エンター
+Next time, use `gcloud run deploy --source .` to deploy the current directory.
+
+Service name (handson-line-bot-gcp-01):　←空エンター
+```
+ポップアップが出るので「承認」をクリック
+![image](https://user-images.githubusercontent.com/1670181/212524053-db72d2bc-9aae-440b-ae8d-06d63cc355ea.png)
+
+リージョンをきかれるので、asia-northeast1、つまり「3」を入力
+```
 ## 3.統合
 
 ### Webhook URLをLINE 側に登録
