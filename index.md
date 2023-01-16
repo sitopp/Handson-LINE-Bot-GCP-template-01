@@ -257,7 +257,7 @@ $ gcloud builds submit \
 
 ![image](https://user-images.githubusercontent.com/1670181/212524053-db72d2bc-9aae-440b-ae8d-06d63cc355ea.png)
 
-```
+
 
 ### Cloud Runへデプロイ
 
