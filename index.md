@@ -199,12 +199,27 @@ cd handson-line-bot-gcp-01
 ```
 - File＞「Auto Save」にチェックが入っていることを確認する。
 
-### ソースからデプロイ
 
-最初はコンテナ化せずソースから直接デプロイします。軽く開発する時に便利なやり方。
+### Dockerfileを書く
+
+handson-LINE-Bot-GCP フォルダの直下に、
+"Dockerfile"という名前のファイルを作り、
+以下を記入してください。
+
+```
+FROM node:12
+WORKDIR /usr/src/app
+COPY package.json package*.json ./
+RUN npm install --only=production
+COPY . .
+CMD [ "npm", "start" ]
+```
+
+
+### Cloud Ruu ビルド、デプロイ
 
 - Cloud Shell エディタのヘッダ部分の「ターミナルを開く」をクリック
-- 場所を移動し、npmで必要なパッケージをインストールする
+- npmで必要なパッケージをインストールする
 
 ```
 $ cd ~/handson-line-bot-gcp-01
@@ -214,7 +229,7 @@ $ npm install
 1〜2分かかるのでストレッチしましょう
 
 
-- ビルドする
+### 認証
 
 ```
 $ gcloud auth login
@@ -227,16 +242,15 @@ Go to the following link in your browser:
 以下のような画面が表示されるので、copyをクリックする
 ![verification](https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png)
 
-ターミナルに戻って以下を入力
-
 ```
 Enter authorization code: ←verification code を入力してエンター
 ```
 
-次に、ビルドを実行する
+- コンテナをビルドし、Container Registoryへ格納
 
 ```
-$ gcloud builds submit   --tag gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01
+$ gcloud builds submit \
+  --tag gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01
 ```
 
 以下のポップアップが出るので「承認」をクリック
@@ -245,7 +259,14 @@ $ gcloud builds submit   --tag gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01
 
 ```
 
-- デプロイする
+### Cloud Runへデプロイ
+
+デプロイする際、あわせてチャネルアクセストークンとチャネルシークレットを環境変数に登録するやり方です。
+環境変数は、プロジェクト閲覧者以上の権限を持つユーザーには見えてしまいますので、正式なサービスでは利用してはいけませぬ。その場合は、Secret Manager を使用してください。
+参考）https://cloud.google.com/run/docs/configuring/environment-variables?hl=ja#command-line
+
+ターミナルから、以下のコマンドを実行してください。
+
 
 ```
 $ gcloud run deploy line-bot-gcp-01 \
@@ -258,10 +279,9 @@ $ gcloud run deploy line-bot-gcp-01 \
   --max-instances=1
 ```
 
-以下のようなメッセージが表示されますので、urlをメモ帳などにコピーします。
+成功すると以下のようなメッセージが表示されますので、Service URLをメモ帳などにコピーします。
 
 ```
-Deploying container to Cloud Run service [line-bot-gcp-01] in project [labs-restraunt-mieru] region [us-central1]
 OK Deploying... Done.                                                             
   OK Creating Revision...                                                         
   OK Routing traffic...
@@ -271,7 +291,7 @@ Service [line-bot-gcp-01] revision [line-bot-gcp-01-00002-has] has been deployed
 Service URL: https://line-bot-gcp-01-hogehogehoge-uc.a.run.app ←これをコピー
 ```
 
-- URLの動作確認
+### URLの動作確認
 
 ブラウザで、上記でゲットしたService URLにアクセスします
 
@@ -281,61 +301,37 @@ Service URL: https://line-bot-gcp-01-hogehogehoge-uc.a.run.app ←これをコ�
 
 これでデプロイ完了です。
 
+
 ## 3.統合
 
 ### Webhook URLをLINE 側に登録
 
-上記でゲットしたService URLにアクセスします
+
+LINE Developersのコンソール画面に戻って、「Messaging API設定」タブから上記で取得したCloud RunのService URLを設定します。
+Service URLの末尾に/callbackを追加してください。
+
+例）
+https://line-bot-gcp-01-hogehogehoge-uc.a.run.app
+↓
+https://line-bot-gcp-01-hogehogehoge-uc.a.run.app/callback
 
 ![image](https://user-images.githubusercontent.com/1670181/212745319-c53ca0bc-fa12-4879-b09e-bae538a1c560.png)
 
-URLの末尾に/callbackを追加すること
 
-検証して、200、OKになること
+「検証」をクリックして、200 OKになることを確認してください。
 
-トラブルシュート
-もし404の場合、末尾に/callbackがついているか確認
+- トラブルシュート
+404の場合、末尾に/callbackがついているか確認。
+
+これでLINEのBotを動かす準備は全て整いました！
+
 
 ### 実機確認
 
 LINE トークアプリでBotに話しかけて、おうむ返しされること
 
-## 4.Cloud Run 応用 / セキュリティ、Docker利用
+![image](https://user-images.githubusercontent.com/1670181/212753508-7633e79b-8313-4749-ba15-a589a2de07a0.png)
 
-### セキュリティ対策
-
-クレデンシャル情報を Secret Managerに入れて呼び出す
-
-### ビルドとデプロイを分ける
-
-メリット：デプロイ時のオプションを指定するなど細やかな制御が可能
-本番公開するサービスでの利用時は必ず分ける
-
-
-
-
-#### Dockerfileを書く
-
-#### コンテナ化し、Container Registoryへ格納
-
-```
-gcloud builds submit \
-  --tag gcr.io/$GOOGLE_CLOUD_PROJECT/handson-LINE-Bot-GCP-01
-```
-
-#### Cloud Runへデプロイ
-※一般公開のオプションを忘れずに
-
-```
-gcloud run deploy line-bot-gcp-01  \
-  --image gcr.io/$GOOGLE_CLOUD_PROJECT/handson-LINE-Bot-GCP-01  \
-  --platform managed  \
-  --region us-central1  \
-  --allow-unauthenticated  \
-  --max-instances=1
-```
-
-## 5. LINE Bot 応用 / リッチメニュー
 
 
 ## 99.片づけ
