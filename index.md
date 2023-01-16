@@ -189,24 +189,6 @@ cd handson-line-bot-gcp-01
     - 左ペインの「handson-line-bot-gcp-01」のフォルダ名をダブルクリックし、中身を開く
     - 以下の二つのファイルをエディタで開いて編集する
  
-- index.js
-```
-// create LINE SDK config from env variables
-const config = {
-  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-  channelSecret: process.env.CHANNEL_SECRET,
-};
-```
-↓
-```
-// create LINE SDK config from env variables
-const config = {
-  channelAccessToken: "aaaaa", 
-  channelSecret: "bbbbb",
-};
-```
-aaaaaとbbbbbはそれぞれ、さっき取得したチャネルアクセストークンとチャネルシークレットに差し替え
-
 - Package.json
 ```
 "name": "echo-bot",
@@ -222,55 +204,90 @@ aaaaaとbbbbbはそれぞれ、さっき取得したチャネルアクセスト�
 最初はコンテナ化せずソースから直接デプロイします。軽く開発する時に便利なやり方。
 
 - Cloud Shell エディタのヘッダ部分の「ターミナルを開く」をクリック
-- 現在位置を確認する
-```
-$ pwd
-/home/ユーザー名/handson-line-bot-gcp-01 ← このパスがレスポンスされればOK。
-   - もし違うパスだったら
+- 場所を移動し、npmで必要なパッケージをインストールする
+
 ```
 $ cd ~/handson-line-bot-gcp-01
-```
-
-- npmで必要なパッケージをインストールする
-```
 $ npm install 
 ```
 
-1〜2分かかるのでストレッチしましょう★
+1〜2分かかるのでストレッチしましょう
 
 
-- デプロイする
+- ビルドする
+
 ```
 $ gcloud auth login
-You are already authenticated with gcloud when running
-inside the Cloud Shell and so do not need to run this
-command. Do you wish to proceed anyway?
-
+（中略）
 Do you want to continue (Y/n)? ←Y
 
 Go to the following link in your browser:
-　　　　https://〜 ←表示された長いURLをクリックするとブラウザが開くので、Google メールアドレスで認証を許可する    
+　　　　https://〜 ←表示された長いURLをクリックするとブラウザが開くので、Google メールアドレスを指定→パーミションは全て許可
 ```
-
+以下のような画面が表示されるので、copyをクリックする
 ![verification](https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png)
 
+ターミナルに戻って以下を入力
 
 ```
-$ gcloud run deploy
-Deploying from source. To deploy a container use [--image]. See https://cloud.google.com/run/docs/deploying-source-code for more details.
-Source code location (/home/sito989/handson-line-bot-gcp-01): ← 空エンター
-Next time, use `gcloud run deploy --source .` to deploy the current directory.
-
-Service name (handson-line-bot-gcp-01):　←空エンター
+Enter authorization code: ←verification code を入力してエンター
 ```
-ポップアップが出るので「承認」をクリック
+
+次に、ビルドを実行する
+
+```
+$ gcloud builds submit   --tag gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01
+```
+
+以下のポップアップが出るので「承認」をクリック
+
 ![image](https://user-images.githubusercontent.com/1670181/212524053-db72d2bc-9aae-440b-ae8d-06d63cc355ea.png)
 
-リージョンをきかれるので、asia-northeast1、つまり「3」を入力
 ```
+
+- デプロイする
+
+```
+$ gcloud run deploy line-bot-gcp-01 \
+  --image gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01 \
+  --set-env-vars "CHANNEL_ACCESS_TOKEN=ここにチャネルアクセストークンを記入"  \
+  --set-env-vars "CHANNEL_SECRET=ここにチャネルシークレットを記入"  \
+  --platform managed   \
+  --region us-central1 \
+  --allow-unauthenticated  \
+  --max-instances=1
+```
+
+以下のようなメッセージが表示されますので、urlをメモ帳などにコピーします。
+
+```
+Deploying container to Cloud Run service [line-bot-gcp-01] in project [labs-restraunt-mieru] region [us-central1]
+OK Deploying... Done.                                                             
+  OK Creating Revision...                                                         
+  OK Routing traffic...
+  OK Setting IAM Policy...
+Done.
+Service [line-bot-gcp-01] revision [line-bot-gcp-01-00002-has] has been deployed and is serving 100 percent of traffic.
+Service URL: https://line-bot-gcp-01-hogehogehoge-uc.a.run.app ←これをコピー
+```
+
+- URLの動作確認
+
+ブラウザで、上記でゲットしたService URLにアクセスします
+
+<img width="473" alt="lineboturl" src="https://user-images.githubusercontent.com/1670181/212745891-0678b4d6-cc88-4a2c-be70-496ec85360ed.png">
+
+「Cannot GET /」と表示されればOK。
+
+これでデプロイ完了です。
+
 ## 3.統合
 
 ### Webhook URLをLINE 側に登録
+
+上記でゲットしたService URLにアクセスします
+
+![image](https://user-images.githubusercontent.com/1670181/212745319-c53ca0bc-fa12-4879-b09e-bae538a1c560.png)
 
 URLの末尾に/callbackを追加すること
 
@@ -293,6 +310,8 @@ LINE トークアプリでBotに話しかけて、おうむ返しされること
 
 メリット：デプロイ時のオプションを指定するなど細やかな制御が可能
 本番公開するサービスでの利用時は必ず分ける
+
+
 
 
 #### Dockerfileを書く
