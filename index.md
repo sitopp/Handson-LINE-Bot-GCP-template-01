@@ -12,7 +12,7 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 ### 事前準備
 - [GitHub アカウント](https://github.com/)作成
 - LINEアカウント作成 (普段つかっているLINEアプリのアカウント)
-- [LINE公式アカウント](https://developers.line.me/console/)作成
+- [LINE公式アカウント](https://developers.line.me/console/)※ ログインできるかどうかを確認ください
 - [Google Cloud アカウント](https://cloud.google.com/free) 作成
   - 会社アカウントでも大丈夫ですが、以下の手順で *プロジェクトを作成* する内容になってますので、適宜読み替えをお願いします。
 - (推奨) [Google Chrome](https://www.google.com/intl/ja/chrome/gsem/download/) の最新版のインストール
@@ -35,7 +35,9 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 若干、Google Cloudの課金が発生する可能性があります。それ以外は課金など発生しません。
 終わった後はリソース一式を削除するなど、無料範囲に収まるようにご留意ください。
 
-# 2.実装
+# 以下は清書中なのでまだ嘘がまざっています。ハンズオン当日までお待ちください 1/17 伊藤
+
+# 2.実装 
 
 ## LINE側の設定
 
