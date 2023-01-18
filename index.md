@@ -172,7 +172,21 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 
 <img src="https://user-images.githubusercontent.com/1670181/212521800-8533f70b-7af2-447b-97fc-f0718e646056.png"  >
 
+### Cloud Runの有効化
 
+- 画面左上のケバブをクリック > 「その他のプロダクト」 > [API とサービス] > [ライブラリ] を選択
+- 検索バーに「Cloud Run」と入力し、検索結果のリストで Cloud Run API を選択
+- プロジェクト「Handson-LINE-Bot-GCP」の課金の有効化、住所とクレジットカードの入力
+- CLoud Run APIの[有効にする] をクリック。ブラウザの「戻る」を押すと、以下のように「APIが有効です」となっている
+
+![image](https://user-images.githubusercontent.com/1670181/213209274-3dc7a983-facd-4948-bd6d-8f9c805ce172.png)
+
+
+<!-- ### Container Registoryの有効化
+
+- 画面左上のケバブをクリック > 「その他のプロダクト」 >  [Container Registory] を選択
+- 特に有効化は必要ない。
+ -->
 
 ### Cloud Shellの起動
 
@@ -189,12 +203,11 @@ VM Instanceなど他のサービスを使う必要があります。
 <img src="https://user-images.githubusercontent.com/1670181/212522520-9617596a-f90c-4309-af5c-47b597fb525f.png"  >
 
 - 該当タブの下半分に Cloud Shell ターミナルが開く
-    - ポップアップは閉じる
-
+- 
 
 ### サンプルコードをGitHubからClone
 
-- LINE公式アカウントが公開しているサンプルコードをCloneします。Cloud Shellターミナルで、以下のコマンドを入力
+- LINE公式アカウントが公開しているサンプルコードをCloneする。Cloud Shellターミナルで以下のコマンドを入力
 
 ```
 $ git clone https://github.com/line/line-bot-sdk-nodejs.git
@@ -206,10 +219,9 @@ $ cd handson-line-bot-gcp-01
 ### Cloud Shellのエディタでファイル編集
 
 - Cloud Shell ターミナルの「エディタを開く」をクリック
-
 - エディタの上を引っ張り上げると、面積を広げることができる
 
- <img src="https://user-images.githubusercontent.com/1670181/212523391-bed90312-2d23-439e-8f38-331156fae316.png"  >
+<img src="https://user-images.githubusercontent.com/1670181/212523391-bed90312-2d23-439e-8f38-331156fae316.png"  >
 
 - 左ペインの 「handson-line-bot-gcp-01」 ＞  「Package.json」 を開く
  
@@ -241,11 +253,6 @@ CMD [ "npm", "start" ]
 
 - 1〜2秒で自動保存される。
 
-### Cloud Runの有効化
-
-- 画面左上のケバブをクリック→ Cloud Runをクリック
-
-- サービスの有効化をする
 
 
 ### 認証
@@ -257,22 +264,18 @@ $ gcloud auth login
 ```
 
 - 「Do you want to continue (Y/n)? 」 には 「Y」 と入力
-
 - 「Go to the following link in your browser:」 の　https://〜 で始まる長いURLをクリックするとブラウザが開くので、Google メールアドレスで認証→許可。
-
 - 以下のような画面が表示されるので、copyをクリックして、verification codeをコピーする
 
 <img src="https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png"  >
 
 - Cloud Shellのターミナルに戻り、 「Enter authorization code: 」 のプロンプトに、上でゲットしたverification code をペーストして、エンター
-
 - 「You are now logged in as〜」と表示されればOK
 
 
 
-### Cloud Run ビルド、デプロイ
+<!-- ### Cloud Run ビルド、デプロイ
 
-- Cloud Shell エディタのヘッダ部分の「ターミナルを開く」をクリックすると、再度ターミナルが開ける
 - 以下のnpmコマンドで、必要なパッケージをインストール
 
 ```
@@ -281,10 +284,7 @@ $ npm install
 ```
 ★これnpm installいらないんでは
 
-1〜2分かかりますので、ストレッチでもしましょう。
-
-<img src="https://user-images.githubusercontent.com/1670181/213172667-eaa72bd3-d9a2-4299-9bc2-58d9a666e0a7.png"  >
-
+ -->
 
 
 ### コンテナをビルドし、Container Registoryへ格納
@@ -297,21 +297,25 @@ $ gcloud builds submit \
 ```
 
 - 「Cloud Shellの承認」というポップアップが出るので「承認」をクリック
+- 「API [cloudbuild.googleapis.com] not enabled on project [99670530964]. Would you like to enable and retry (this will take a few minutes)? (y/N)?」 と表示されたら、「y」を入力
+- 1〜2分かかりますので、ストレッチでもしましょう
+- STATUS: SUCCESSで終了すればOK
 
-- トラブルシュート
+<img src="https://user-images.githubusercontent.com/1670181/213172667-eaa72bd3-d9a2-4299-9bc2-58d9a666e0a7.png"  >
+
+<!-- - トラブルシュート
    - 「GCP ERROR: (gcloud.builds.submit) HTTPError 404: The requested project was not found.」が出たら、
-    - 
+   
 ```
 $ gcloud config list project
-
 [core]
 project = handson-line-bot-gcp ←プロジェクトIDが返却されるので、コピー
-
 $ gcloud config set project handson-line-bot-gcp ←プロジェクトIDを指定して実行
-
 Updated property [core/project]. ← 正常終了
 ``` 
-
+ -->
+ 
+ 
 ### Cloud Runへデプロイ
 
 ```
@@ -324,18 +328,19 @@ Updated property [core/project]. ← 正常終了
 - Cloud Shell ターミナルで以下を実行
 
 ```
-$ CHANNEL_ACCESS_TOKEN = "ここにチャネルアクセストークンを記入"
-$ CHANNEL_SECRET = "ここにチャネルシークレットを記入"
+$ CHANNEL_ACCESS_TOKEN=ここにチャネルアクセストークンを記入（ダブルクウォートなどで囲む必要なし)
+$ CHANNEL_SECRET=ここにチャネルシークレットを記入（ダブルクウォートなどで囲む必要なし)
 
-$ gcloud run deploy line-bot-gcp-01 \
-  --image gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01 \
+$ gcloud run deploy handson-line-bot-gcp-01 \
+  --image gcr.io/$GOOGLE_CLOUD_PROJECT/handson-line-bot-gcp-01 \
   --set-env-vars "CHANNEL_ACCESS_TOKEN=$CHANNEL_ACCESS_TOKEN"  \
   --set-env-vars "CHANNEL_SECRET=$CHANNEL_SECRET"  \
   --platform managed   \
-  --region us-central1 \
+  --region asia-northeast1 \
   --allow-unauthenticated  \
   --max-instances=1
 ```
+※「CHANNEL_ACCESS_TOKEN = 」のようにイコールの前や後に空白が入ると失敗する
 
 - 成功すると以下のようなOKメッセージが表示されるので、Service URLをメモ帳などにコピーしておく
 
@@ -401,7 +406,12 @@ https://line-bot-gcp-01-hogehogehoge-uc.a.run.app/callback
 ## 99.片づけ
 
 ### Container Registory : コンテナを消す
+
+- 左上のナビゲーションバー > Container Registory > イメージ >  handson-line-bot-gcp-01 > コンテナにチェックを入れて 「削除」 
+
 ### Cloud Run: アプリを消す
+
+- 左上のナビゲーションバー > Cloud Run > handson-line-bot-gcp-01 にチェックを入れて「削除」
 
 
 参考文献
