@@ -3,7 +3,6 @@
 簡単なLINE Botの作成を通じて、、Messaging APIの基本的な使い方と、
 Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公開方法などが学べます。
 
-
 ### 当日の持ち物
 
 - LINEがインストール済みのスマホ
@@ -190,8 +189,7 @@ VM Instanceなど他のサービスを使う必要があります。
 <img src="https://user-images.githubusercontent.com/1670181/212522520-9617596a-f90c-4309-af5c-47b597fb525f.png"  >
 
 - 該当タブの下半分に Cloud Shell ターミナルが開く
-    - 「Click here to see details 〜」と「プロジェクト「Handson-LINE-Bot-GCP」を表示しています。」の通知は閉じておく。
-
+    - ポップアップは閉じる
 
 
 ### サンプルコードをGitHubからClone
@@ -199,9 +197,9 @@ VM Instanceなど他のサービスを使う必要があります。
 - LINE公式アカウントが公開しているサンプルコードをCloneします。Cloud Shellターミナルで、以下のコマンドを入力
 
 ```
-git clone https://github.com/line/line-bot-sdk-nodejs.git
-cp -r ~/line-bot-sdk-nodejs/examples/echo-bot/ ~/handson-line-bot-gcp-01
-cd handson-line-bot-gcp-01
+$ git clone https://github.com/line/line-bot-sdk-nodejs.git
+$ cp -r ~/line-bot-sdk-nodejs/examples/echo-bot/ ~/handson-line-bot-gcp-01
+$ cd handson-line-bot-gcp-01
 ```
 
 
@@ -213,7 +211,7 @@ cd handson-line-bot-gcp-01
 
  <img src="https://user-images.githubusercontent.com/1670181/212523391-bed90312-2d23-439e-8f38-331156fae316.png"  >
 
-- 左ペインの「handson-line-bot-gcp-01」のフォルダ名をダブルクリックして開き、 「Package.json」をダブルクリックして、ファイルを編集する
+- 左ペインの 「handson-line-bot-gcp-01」 ＞  「Package.json」 を開く
  
 ```
 "name": "echo-bot",
@@ -225,10 +223,12 @@ cd handson-line-bot-gcp-01
 
 - File＞「Auto Save」にチェックが入っていることを確認。自動保存される。
 
+![autosave](https://user-images.githubusercontent.com/1670181/213190518-6d18127e-9eab-4c43-8840-6e48b441b20d.png)
 
 ### Dockerfileを書く
 
-- handson-LINE-Bot-GCP フォルダの直下に、"Dockerfile"という名前のファイルを作り、以下を記入
+- 「handson-line-bot-gcp-01」フォルダ右クリック →メニュー一番上の New FIle をクリックし、"Dockerfile"(拡張子無し)という名前のファイルを作る
+- 以下を記入
 
 ```
 FROM node:12
@@ -238,6 +238,36 @@ RUN npm install --only=production
 COPY . .
 CMD [ "npm", "start" ]
 ```
+
+- 1〜2秒で自動保存される。
+
+### Cloud Runの有効化
+
+- 画面左上のケバブをクリック→ Cloud Runをクリック
+
+- サービスの有効化をする
+
+
+### 認証
+
+- Cloud Shell ターミナルで以下を実行
+
+```
+$ gcloud auth login
+```
+
+- 「Do you want to continue (Y/n)? 」 には 「Y」 と入力
+
+- 「Go to the following link in your browser:」 の　https://〜 で始まる長いURLをクリックするとブラウザが開くので、Google メールアドレスで認証→許可。
+
+- 以下のような画面が表示されるので、copyをクリックして、verification codeをコピーする
+
+<img src="https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png"  >
+
+- Cloud Shellのターミナルに戻り、 「Enter authorization code: 」 のプロンプトに、上でゲットしたverification code をペーストして、エンター
+
+- 「You are now logged in as〜」と表示されればOK
+
 
 
 ### Cloud Run ビルド、デプロイ
@@ -256,26 +286,6 @@ $ npm install
 <img src="https://user-images.githubusercontent.com/1670181/213172667-eaa72bd3-d9a2-4299-9bc2-58d9a666e0a7.png"  >
 
 
-### 認証
-
-- Cloud Shell ターミナルで以下を実行
-
-```
-$ gcloud auth login
-（中略）
-Do you want to continue (Y/n)? ←Y
-
-Go to the following link in your browser:
-　　　　https://〜 ←表示された長いURLをクリックするとブラウザが開くので、Google メールアドレスで認証。
-```
-
-- 以下のような画面が表示されるので、copyをクリック
-
-![verification](https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png"  >
-
-```
-Enter authorization code: ←verification code を入力してエンター
-```
 
 ### コンテナをビルドし、Container Registoryへ格納
 
@@ -283,16 +293,24 @@ Enter authorization code: ←verification code を入力してエンター
 
 ```
 $ gcloud builds submit \
-  --tag gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01
+  --tag gcr.io/$GOOGLE_CLOUD_PROJECT/handson-line-bot-gcp-01
 ```
 
-- 以下のポップアップが出るので「承認」をクリック
+- 「Cloud Shellの承認」というポップアップが出るので「承認」をクリック
 
-<img src="https://user-images.githubusercontent.com/1670181/212524053-db72d2bc-9aae-440b-ae8d-06d63cc355ea.png"  >
+- トラブルシュート
+   - 「GCP ERROR: (gcloud.builds.submit) HTTPError 404: The requested project was not found.」が出たら、
+    - 
+```
+$ gcloud config list project
 
+[core]
+project = handson-line-bot-gcp ←プロジェクトIDが返却されるので、コピー
 
- - トラブルシュート
-     - Cloud Runが有効になってない
+$ gcloud config set project handson-line-bot-gcp ←プロジェクトIDを指定して実行
+
+Updated property [core/project]. ← 正常終了
+``` 
 
 ### Cloud Runへデプロイ
 
