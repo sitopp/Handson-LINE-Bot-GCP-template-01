@@ -29,7 +29,8 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 
 ### 構成図
 
-(作成中）★
+![image](https://user-images.githubusercontent.com/1670181/213183173-488e2147-e115-4f68-92cc-df9d0eca499b.png)
+
 
 ### 注意事項
 若干、Google Cloudの課金が発生する可能性があります。それ以外は課金など発生しません。
