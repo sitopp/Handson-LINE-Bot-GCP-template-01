@@ -159,23 +159,23 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
     - https://console.cloud.google.com/
 
 - 日本語に変更するやり方
-    - 右上のケバブ > Preferences > Language & region > Languageを日本語にする > 保存
+    - 右上のケバブをクリックしてナビゲーションバーを開く > Preferences > Language & region > Languageを日本語にする > 保存
 
 ### プロジェクト作成 
 
 - ヘッダの「プロジェクトの選択▼」＞新しいプロジェクト
 - プロジェクト名 ： Handson-LINE-Bot-GCP
 
-<img width="575" alt="image" src="https://user-images.githubusercontent.com/1670181/212521749-8bae7ab6-05c5-4188-ae82-14a539c4e1aa.png">
+<img width="50%" alt="image" src="https://user-images.githubusercontent.com/1670181/212521749-8bae7ab6-05c5-4188-ae82-14a539c4e1aa.png">
 
 - 右上の ベルのアイコンをクリック > プロジェクト「Handson-LINE-Bot-GCP」を作成 〜 プロジェクトを選択 をクリックして、Handson-LINE-Bot-GCPのダッシュボードを開く
 
-<!-- <img src="https://user-images.githubusercontent.com/1670181/212521800-8533f70b-7af2-447b-97fc-f0718e646056.png"  >
- -->
+<img src="https://user-images.githubusercontent.com/1670181/212521800-8533f70b-7af2-447b-97fc-f0718e646056.png"   width="50%">
+
  
 ### Cloud Runの有効化
 
-- 画面左上のケバブをクリック > 「その他のプロダクト」 > [API とサービス] > [ライブラリ] を選択
+- 画面左上のナビゲーションバーを開く > 「その他のプロダクト」 > [API とサービス] > [ライブラリ] を選択
 - 検索バーに「Cloud Run」と入力し、検索結果のリストで Cloud Run API を選択
 - プロジェクト「Handson-LINE-Bot-GCP」の課金の有効化、住所とクレジットカードの入力
 - CLoud Run APIの[有効にする] をクリック。ブラウザの「戻る」を押すと、以下のように「APIが有効です」となっている
@@ -185,7 +185,7 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 
 <!-- ### Container Registoryの有効化
 
-- 画面左上のケバブをクリック > 「その他のプロダクト」 >  [Container Registory] を選択
+- 画面左上のナビゲーションバーを開く > 「その他のプロダクト」 >  [Container Registory] を選択
 - 特に有効化は必要ない。
  -->
 
@@ -410,7 +410,8 @@ https://line-bot-gcp-01-hogehogehoge-uc.a.run.app/callback
 
 ### Container Registory : コンテナを消す
 
-- 左上のナビゲーションバー > Container Registory > イメージ >  handson-line-bot-gcp-01 > コンテナにチェックを入れて 「削除」 
+- 左上の
+> Container Registory > イメージ >  handson-line-bot-gcp-01 > コンテナにチェックを入れて 「削除」 
 
 ### Cloud Run: アプリを消す
 
