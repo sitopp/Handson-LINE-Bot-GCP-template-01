@@ -43,32 +43,34 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 
 ### チャネルの作成スタート
 
-https://developers.line.me/ja/services/messaging-api/ にアクセス。
-「今すぐはじめよう」のボタンを押して進めていきましょう。
+- https://developers.line.me/ja/services/messaging-api/ にアクセス。
+
+- 「今すぐはじめよう」のボタンを押して進めていきましょう。
 
 <img src="https://user-images.githubusercontent.com/1670181/211333630-a0162d3a-d906-4147-bbb2-c5df6b288af7.png" width="500" >
 
-「LINEアカウントでログイン」を押してください。
+- 「LINEアカウントでログイン」を押してください。
 
 <img src="https://user-images.githubusercontent.com/1670181/211335264-2b450a14-aff0-45dc-b317-2d784d3fc676.png" width="500" >
 
-LINEのログインを求められるのでログインしてください。
+- LINEのログインを求められるのでログインしてください。
 
 <img src="https://user-images.githubusercontent.com/1670181/211335374-147a0484-aac3-4569-bdf4-120a67c48ed1.png" width="500" >
 
 ### チャネルの種類
-Messaging APIになっているか確認します。
+
+- Messaging APIになっているか確認します。
 
 <img src="https://user-images.githubusercontent.com/1670181/211335880-f4def702-1b09-4f60-9f55-abd513ba4e44.png" width="500" >
 
 ### プロバイダ
-既にプロバイダーを作っている場合 → 利用するプロバイダーを選択しましょう。
+
+- 既にプロバイダーを作っている場合 → 利用するプロバイダーを選択しましょう。
 
 <img src="https://user-images.githubusercontent.com/1670181/211336057-6531ae92-26fd-4dd0-a989-338a83a2917f.png" width="500" >
 
-初めて → 新規プロバイダー作成を選択しプロバイダー名を入力しましょう。
-
-（LINEという文字は含められません。）
+- 「初めて」 → 新規プロバイダー作成を選択しプロバイダー名を入力しましょう。
+    - （LINEという文字は含められません。）
 
 <img src="https://user-images.githubusercontent.com/1670181/211336106-49139b55-2884-42b2-b24e-211f108e3568.png" width="500" >
 
@@ -76,10 +78,13 @@ Messaging APIになっているか確認します。
 <img src="https://user-images.githubusercontent.com/1670181/212520933-0121c2fc-a073-43d9-af70-cc5b7d2af3a2.png" width="500" >
 
 ### チャネルアイコン
-チャネルアイコンを登録しましょう。（今回は必須ではありません）
+
+* チャネルアイコンを登録しましょう。（今回は必須ではありません）
+
 <img src="https://user-images.githubusercontent.com/1670181/212520954-6f3c6a81-80b7-4b69-a970-68d5784792c8.png" width="500" >
 
 ### チャネル名、チャネル説明
+
 - 下記を入力しましょう。
     - チャネル名：「HandsonBot」
     - チャネル説明：「HandsonBotです。」
@@ -167,7 +172,7 @@ LINE Official Account Manager 画面にアクセスして、Botの「応答モ�
 
 ### Cloud Shellの起動
 
-[Cloud ShellはGCP上に用意される無料のオンライン環境](https://cloud.google.com/shell/pricing?hl=ja)で、利用が終わると停止しますが、作業内容はディスクに保存され、次回ログイン時にも引き続き使うことができます。なおディスク容量は5GBしかありませんので、それ以上の大きなデータを扱う場合は VM Instanceなど他のサービスを使う必要があります。
+- [Cloud ShellはGCP上に用意される無料のオンライン環境](https://cloud.google.com/shell/pricing?hl=ja)で、利用が終わると停止しますが、作業内容はディスクに保存され、次回ログイン時にも引き続き使うことができます。なおディスク容量は5GBしかありませんので、それ以上の大きなデータを扱う場合は VM Instanceなど他のサービスを使う必要があります。
 
 - ヘッダのCloud Shellアイコンをクリック
 
@@ -180,9 +185,7 @@ LINE Official Account Manager 画面にアクセスして、Botの「応答モ�
 
 ### サンプルコードをGitHubからClone
 
-LINE公式アカウントが公開しているサンプルコードをCloneします。
-
-- Cloud Shellターミナルで、以下のコマンドを入力
+- LINE公式アカウントが公開しているサンプルコードをCloneします。Cloud Shellターミナルで、以下のコマンドを入力してください。
 
 ```
 git clone https://github.com/line/line-bot-sdk-nodejs.git
@@ -191,16 +194,16 @@ cd handson-line-bot-gcp-01
 ```
 
 
-### Cloud Shellのエディタを起動
+### Cloud Shellのエディタでファイル編集
 
-- Cloud Shell ターミナルの「エディタを開く」をクリック
-- エディタの上を引っ張り上げて面積を広げる
+- Cloud Shell ターミナルの「エディタを開く」をクリックしましょう。
+
+- エディタの上を引っ張り上げると、面積を広げることができます。
+
  ![image](https://user-images.githubusercontent.com/1670181/212523391-bed90312-2d23-439e-8f38-331156fae316.png)
 
-- 左ペインの「handson-line-bot-gcp-01」のフォルダ名をダブルクリックし、中身を開く
-
- 
-- 「Package.json」を開いて編集
+- 左ペインの「handson-line-bot-gcp-01」のフォルダ名をダブルクリックして開き、 「Package.json」をダブルクリックして編集タブを開きましょう。
+- 以下のように書き換えます。
 
 ```
 "name": "echo-bot",
@@ -210,12 +213,12 @@ cd handson-line-bot-gcp-01
 "name": "handson-line-bot-gcp-01" ,
 ```
 
-- File＞「Auto Save」にチェックが入っていることを確認する
+- File＞「Auto Save」にチェックが入っていることを確認しましょう。自動的に保存されます。
 
 
 ### Dockerfileを書く
 
-handson-LINE-Bot-GCP フォルダの直下に、"Dockerfile"という名前のファイルを作り、以下を記入してください。
+- handson-LINE-Bot-GCP フォルダの直下に、"Dockerfile"という名前のファイルを作り、以下を記入してください。
 
 ```
 FROM node:12
@@ -229,8 +232,8 @@ CMD [ "npm", "start" ]
 
 ### Cloud Run ビルド、デプロイ
 
-- Cloud Shell エディタのヘッダ部分の「ターミナルを開く」をクリック
-- npmで必要なパッケージをインストールする
+- Cloud Shell エディタのヘッダ部分の「ターミナルを開く」をクリックすると、再度ターミナルが開けます。
+- 以下のnpmコマンドで、必要なパッケージをインストールします。
 
 ```
 $ cd ~/handson-line-bot-gcp-01
@@ -238,7 +241,9 @@ $ npm install
 ```
 ★これnpm installいらないんでは
 
-1〜2分かかるのでストレッチしましょう
+1〜2分かかりますので、ストレッチでもしましょう。
+
+![image](https://user-images.githubusercontent.com/1670181/213172667-eaa72bd3-d9a2-4299-9bc2-58d9a666e0a7.png)
 
 
 ### 認証
@@ -254,7 +259,7 @@ Go to the following link in your browser:
 　　　　https://〜 ←表示された長いURLをクリックするとブラウザが開くので、Google メールアドレスで認証。
 ```
 
-- 以下のような画面が表示されるので、copyをクリックする
+- 以下のような画面が表示されるので、copyをクリックしてください。
 
 ![verification](https://user-images.githubusercontent.com/1670181/212524210-c5bf75ea-28fb-4af5-84c6-ce01fe6e0052.png)
 
@@ -264,28 +269,27 @@ Enter authorization code: ←verification code を入力してエンター
 
 ### コンテナをビルドし、Container Registoryへ格納
 
-- Cloud Shell ターミナルで以下を実行
+- Cloud Shell ターミナルで以下を実行してください。
 
 ```
 $ gcloud builds submit \
   --tag gcr.io/$GOOGLE_CLOUD_PROJECT/line-bot-gcp-01
 ```
 
-- 以下のポップアップが出るので「承認」をクリック
+- 以下のポップアップが出るので「承認」をクリックしましょう。
 
 ![image](https://user-images.githubusercontent.com/1670181/212524053-db72d2bc-9aae-440b-ae8d-06d63cc355ea.png)
 
 
- - 失敗の場合はトラブルシュート
+ - トラブルシュート
      - Cloud Runが有効になってない
 
 ### Cloud Runへデプロイ
 
-デプロイする際、あわせてチャネルアクセストークンとチャネルシークレットを環境変数に登録するやり方です。
-環境変数は、プロジェクト閲覧者以上の権限を持つユーザーには見えてしまいますので、正式なサービスでは利用してはいけませぬ。その場合は、Secret Manager を使用してください。
+- デプロイする際、あわせてチャネルアクセストークンとチャネルシークレットを環境変数に登録するやり方です。ただし環境変数はプロジェクト閲覧者以上の権限を持つユーザーには見えてしまいますので、正式なサービスでは避けた方がよく、代わりにSecret Managerを使用してください。
 参考）https://cloud.google.com/run/docs/configuring/environment-variables?hl=ja#command-line
 
-- Cloud Shell ターミナルで以下を実行
+- Cloud Shell ターミナルで以下を実行してください。
 
 ```
 $ CHANNEL_ACCESS_TOKEN = "ここにチャネルアクセストークンを記入"
@@ -301,7 +305,7 @@ $ gcloud run deploy line-bot-gcp-01 \
   --max-instances=1
 ```
 
-- 成功すると以下のようなOKメッセージが表示されるので、Service URLをメモ帳などにコピーしておく。
+- 成功すると以下のようなOKメッセージが表示されるので、Service URLをメモ帳などにコピーしておいてください。
 
 ```
 OK Deploying... Done.                                                             
@@ -314,16 +318,14 @@ Service URL: https://line-bot-gcp-01-hogehogehoge-uc.a.run.app ←これをコ�
 ```
 ![image](https://user-images.githubusercontent.com/1670181/212861496-89cb7048-a6a0-42d8-b8b1-0a4c6d959f97.png)
 
- - 失敗の場合はトラブルシュート
-     - npm
-     - シークレット等の変数の代入わすれ
-     - 
+ - トラブルシュート
+     - npmがインストールできていない
+     - シークレットの変数の代入わすれ
+     
 
 ### URLの動作確認
 
-- ブラウザで、上記でゲットしたService URLにアクセスしてみる.
-「Cannot GET /」と表示されればOK。
-
+- ブラウザで、上記でゲットしたService URLにアクセスしてみましょう。以下のように、「Cannot GET /」と表示されればOKです！
 
 ![image](https://user-images.githubusercontent.com/1670181/212787661-8db9e74e-c04b-49ab-9507-daccc8c489e1.png)
 
@@ -335,8 +337,8 @@ Service URL: https://line-bot-gcp-01-hogehogehoge-uc.a.run.app ←これをコ�
 
 ### Webhook URLをLINE 側に登録
 
-LINE Developersのコンソール画面に戻って、「Messaging API設定」タブのWebhookに、上記で取得したCloud RunのService URLを設定します。
-Service URLの末尾には、/callbackを追加してください。 
+- LINE Developersのコンソール画面に戻って、「Messaging API設定」タブのWebhookに、上記で取得したCloud RunのService URLを設定します。
+    - Service URLの末尾には、/callbackを追加してください。 
 
 例）
 https://line-bot-gcp-01-hogehogehoge-uc.a.run.app
@@ -347,17 +349,17 @@ https://line-bot-gcp-01-hogehogehoge-uc.a.run.app/callback
 ![image](https://user-images.githubusercontent.com/1670181/212861546-23c2d763-eb11-4154-b97e-05a817ec0631.png)
 
 
-「検証」をクリックして、200 OKになることを確認してください。
+- 「検証」をクリックして、200 OKになることを確認してください。
 
 - トラブルシュート
-404の場合、末尾に/callbackがついているか確認。
+    - 404の場合、末尾に/callbackがついているか確認。
 
-これでLINEのBotを動かす準備は全て整いました！
+- これでLINEのBotを動かす準備は全て整いました！
 
 
 ### 実機確認
 
-LINE トークアプリでBotに話しかけて、おうむ返しされること
+- LINE トークアプリでBotに話しかけて、おうむ返しされることを確認しましょう！
 
 ![image](https://user-images.githubusercontent.com/1670181/212753508-7633e79b-8313-4749-ba15-a589a2de07a0.png)
 
