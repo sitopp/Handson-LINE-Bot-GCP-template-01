@@ -149,7 +149,9 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
     - デフォルトの設定はONになっており、メッセージを送るたびにデフォルトのメッセージが返ってきてしまうため
 
 <img src="https://user-images.githubusercontent.com/1670181/212521176-36e7a3d0-2233-48ee-8cf7-e4f764e0f51a.png"  >
-<img src="https://user-images.githubusercontent.com/1670181/212521188-a719200b-be23-43e5-96c5-b0b5fb92ff0b.png"  >
+
+
+<img src="https://user-images.githubusercontent.com/1670181/213186106-486bc77b-4dcd-400c-97aa-456f8c49a2f7.png"  >
 
 
 ## GCP側の設定
