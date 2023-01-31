@@ -28,7 +28,8 @@ Cloud Runでのコンテナのビルドやデプロイの方法、RestAPIの公�
 
 ### 構成図
 
-![image](https://user-images.githubusercontent.com/1670181/213183173-488e2147-e115-4f68-92cc-df9d0eca499b.png)
+
+![kouseizu](https://user-images.githubusercontent.com/1670181/215822528-2a0ccb67-6afb-4eb3-8d45-148b3505852c.png)
 
 
 ### 注意事項
